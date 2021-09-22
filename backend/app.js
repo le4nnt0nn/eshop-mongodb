@@ -21,13 +21,12 @@ const productSchema = mongoose.Schema({
 const Product = mongoose.model('Product', productSchema);
 
 
-app.get(`${api}/products`, (req, res)=>{
-    const product = {
-        id: 1,
-        name: 'hair dresser',
-        image: 'some_url',
+app.get(`${api}/products`, async (req, res)=>{
+    const productList = await Product.find();
+    if(!productList) {
+        res.status(500).json({success : false})
     }
-    res.send(product);
+    res.send(productList);
 })
 
 app.post(`${api}/products`, (req, res)=>{
