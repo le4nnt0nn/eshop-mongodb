@@ -26,7 +26,17 @@ app.post(`${api}/products`, (req, res)=>{
     res.send(newProduct);
 })
 
-mongoose.connect('mongodb+srv://admin:admin@cluster0.wwcdw.mongodb.net/eshop-database?retryWrites=true&w=majority')
+mongoose.connect(process.env.CONNECTION_STRING, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    dbName: 'eshop-database'
+})
+.then(()=>{
+    console.log('Database Connection is ready...')
+})
+.catch((err)=>{
+    console.log(err);
+})
 
 app.listen(3003, ()=>{
     console.log('server is running http://localhost:3003');
