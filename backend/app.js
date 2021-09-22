@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
+const mongoose = require('mongoose');
 
 require('dotenv/config');
 
@@ -24,6 +25,8 @@ app.post(`${api}/products`, (req, res)=>{
     console.log(newProduct);
     res.send(newProduct);
 })
+
+mongoose.connect('mongodb+srv://admin:admin@cluster0.wwcdw.mongodb.net/eshop-database?retryWrites=true&w=majority')
 
 app.listen(3003, ()=>{
     console.log('server is running http://localhost:3003');
