@@ -6,4 +6,5 @@ const productSchema = mongoose.Schema({
     countInStock: Number
 })
 
+// exporta el Schema con nombre Product
 exports.Product = mongoose.model('Product', productSchema);
