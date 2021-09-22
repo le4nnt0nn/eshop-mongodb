@@ -26,4 +26,6 @@ router.post(`/`, (req, res)=>{
     })
 })
 
+
+// exporta el modulo router
 module.exports = router;
