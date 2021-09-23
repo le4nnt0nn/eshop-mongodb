@@ -103,7 +103,20 @@ router.get(`/get/count`, async (req, res)=>{
     }
     res.send(productCount);
 })
- */
+*/
+/* Muestra todos los productos featured 
+y puedes pasarle cuántos quieres mostrar */
+router.get(`/get/featured/:count`, async (req, res)=>{
+    const count = req.params.count ? req.params.count : 0
+    const products = await Product.find({isFeatured: true}).limit(+count)
+    
+    if(!products) {
+        res.status(500).json({success : false})
+    }
+    res.send(products);
+})
+
+
 
 // exporta el modulo router
 module.exports = router;
