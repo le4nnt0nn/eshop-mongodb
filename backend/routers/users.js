@@ -1,7 +1,8 @@
 const { User } = require('../models/user');
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 router.get(`/`, async (req, res)=>{
     /* Si quiero filtrar y que salgan 3 parámetros ej
@@ -47,13 +48,24 @@ router.post('/', async (req, res)=>{
 /* autenticación */
 router.post('/login', async (req, res)=> {
     const user = await User.findOne({email: req.body.email})
+    const secret = process.env.secret;
 
     if(!user) {
         return res.status(400).send('The user not found');
     }
     /* compara la contraseña del body y la del usuario elegido */
     if(user && bcrypt.compareSync(req.body.password, user.passwordHash)) {
-        res.status(200).send('user Authenticated')
+        /* token generado a través de id | el secret del token (psswd) es secret */
+        const token = jwt.sign(
+            {
+                userId: user.id
+            },
+            secret,
+            /* el token expira en: 1día */
+            {expiresIn: '1d'}
+        )
+
+        res.status(200).send({user: user.email , token: token})
     } else {
         res.status(400).send('password is wrong')
     }
