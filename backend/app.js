@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv/config');
 const authJwt = require('./helper/jwt');
-const errorHandler = require('./helper/error-handler')
+const errorHandler = require('./helper/error-handler');
 
 app.use(cors());
 app.options('*', cors())
@@ -14,7 +14,7 @@ app.options('*', cors())
 app.use(express.json());
 app.use(morgan('tiny'));
 app.use(authJwt());
-app.use(errorHandler());
+app.use(errorHandler);
 
 //Routers
 const categoriesRouter = require('./routers/categories');
