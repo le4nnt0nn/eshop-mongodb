@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 /* use .select('name image -_id'); 
 for display only name, image and not id */
 router.get(`/`, async (req, res)=>{
-    // localhost:3000/api/v1/products/categories=234234,555
+    // localhost:3000/api/v1/products?categories=idCategory
     let filter = {};
     if(req.query.categories) 
     {
