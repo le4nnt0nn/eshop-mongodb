@@ -57,6 +57,7 @@ const productSchema = mongoose.Schema({
     },
 })
 
+/* Cambia el id -> _id to id */
 productSchema.virtual('id').get(function () {
     return this._id.toHexString();
 });

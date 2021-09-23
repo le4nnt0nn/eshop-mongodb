@@ -43,6 +43,7 @@ const userSchema = new mongoose.Schema({
     }
 })
 
+/* Cambia el id -> _id to id */
 userSchema.virtual('id').get(function () {
     return this._id.toHexString();
 });
