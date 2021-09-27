@@ -4,11 +4,28 @@ const { OrderItem } = require('../models/order-items');
 const router = express.Router();
 
 router.get(`/`, async (req, res)=>{
-    const orderList = await Order.find();
+    /*
+    Populate obtiene toda la información del usuario,
+    pero en este caso name ordenado por fecha de más nuevo a más antiguo */  
+    const orderList = await Order.find().populate('user' ,'name').sort({'dateOrdered': -1});
     if(!orderList) {
         res.status(500).json({success : false})
     }
     res.send(orderList);
+})
+
+router.get(`/:id`, async (req, res)=>{
+    /*
+    Populate obtiene toda la información del usuario,
+    pero en este caso name con populate de orderItems */  
+    const order = await Order.findById(req.params.id)
+    .populate('user' ,'name')
+    .populate({ path: 'orderItems',
+    populate: {path: 'product', populate: 'category'} });
+    if(!order) {
+        res.status(500).json({success : false})
+    }
+    res.send(order);
 })
 
 router.post('/', async (req, res)=>{
