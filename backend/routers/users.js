@@ -58,7 +58,8 @@ router.post('/login', async (req, res)=> {
         /* token generado a través de id | el secret del token (psswd) es secret */
         const token = jwt.sign(
             {
-                userId: user.id
+                userId: user.id,
+                isAdmin: user.isAdmin
             },
             secret,
             /* el token expira en: 1día */
