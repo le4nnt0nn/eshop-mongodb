@@ -99,17 +99,20 @@ router.delete('/:id', (req, res)=>{
 })
 
 /* 
-Permite contar el numero de productos (en este caso) de la tabla. No funciona
-
+Permite contar el numero de productos (en este caso) de la tabla. 
+No funciona
 router.get(`/get/count`, async (req, res)=>{
     const productCount = await Product.countDocuments((count) => count)
     
     if(!productCount) {
         res.status(500).json({success : false})
     }
-    res.send(productCount);
+    res.send({
+        productCount: productCount
+    });
 })
 */
+
 /* Muestra todos los productos featured 
 y puedes pasarle cuántos quieres mostrar */
 router.get(`/get/featured/:count`, async (req, res)=>{
