@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
     filename: function (req, file, cb) {
         /* Cambiar espacios por - */
       const fileName = file.originalname.split(' ').join('-')
-      cb(null, fileName + '-' + Date.now())
+      cb(null, `${fileName}-${Date.now()}.${extension}`)
     }
   })
   
