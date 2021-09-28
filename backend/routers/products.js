@@ -177,6 +177,39 @@ router.get(`/get/featured/:count`, async (req, res)=>{
     res.send(products);
 })
 
+/* Edita y añade imagenes para un producto */
+router.put(
+    '/gallery-images/:id', 
+    uploadOptions.array('images', 10), 
+    async (req, res)=> {
+        if(!mongoose.isValidObjectId(req.params.id)) {
+            res.status(400).send('Invalid Product Id')
+        }
+
+        const files = req.files
+        let imagesPaths = [];
+        const basePath = `${req.protocol}://${req.get('host')}/public/upload`;
+
+        if(files) {
+            files.map(file => {
+                imagesPaths.push(`${basePath}${file.fileName}`)
+            })
+        }
+        
+        const updatedProduct = await Product.findByIdAndUpdate(
+            req.params.id,
+            {
+                images: imagesPaths
+            },
+            { new: true }
+        )
+        if(!updatedProduct)
+            return res.status(500).send('The product cannot be created')
+    
+        res.send(updatedProduct);
+    }
+) 
+
 
 
 // exporta el modulo router
