@@ -5,15 +5,29 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const multer = require('multer');
 
+
+const FILE_TYPE_MAP = {
+    'image/png' : 'png',
+    'image/jpg' : 'jpg',
+    'image/jpeg' : 'jpeg'
+}
+
 /* Redirige los archivos a public/uploads
 y añade nombre y fecha ej. imagen-19082021.jpg */
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, 'public/uploads')
+        const isValidFile = FILE_TYPE_MAP[file.mimetype]
+        let uploadError = new Error('invalid image type');
+
+        if(isValidFile) {
+            uploadError = null
+        }
+      cb(uploadError, 'public/uploads')
     },
     filename: function (req, file, cb) {
         /* Cambiar espacios por - */
       const fileName = file.originalname.split(' ').join('-')
+      const extension = FILE_TYPE_MAP[file.mimetype]
       cb(null, `${fileName}-${Date.now()}.${extension}`)
     }
   })
